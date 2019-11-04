@@ -2,6 +2,8 @@ require('dotenv').config()
 const express = require('express')
 const session= require('express-session')
 const {SERVER_PORT, SESSION_SECRET} = process.env 
+const middleware = require('./middleware/checkForSession')
+const swagCTRL = require('./controllers/swagController')
 
 const app = express()
 
@@ -12,8 +14,10 @@ app.use(session({
     saveUninitialized: false, 
     secret: SESSION_SECRET
 }))
+app.use(middleware.sessionCheck)
 
 //endpoints
+app.get('/api/swag', swagCTRL.read)
 
 //listening
 app.listen(SERVER_PORT, ()=> console.log(`Port ${SERVER_PORT} is on and ready to copy`))
