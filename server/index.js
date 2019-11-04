@@ -18,6 +18,8 @@ app.use(session({
     secret: SESSION_SECRET
 }))
 app.use(middleware.sessionCheck)
+app.use(express.static(`${__dirname}/../build`))
+// app.use(express.static(`${__dirname}/../build`))
 
 //endpoints: ----------------------------------------
 
@@ -30,10 +32,10 @@ app.post('/api/signout', authCTRL.signout)
 app.get('/api/user', authCTRL.getUser)
 //CART CTRL
 app.post('/api/cart/checkout', cartCTRL.checkout)
-app.post('/api/cart:id', cartCTRL.add)
-app.delete('/api/cart:id', cartCTRL.delete)
+app.post('/api/cart/:id', cartCTRL.add)
+app.delete('/api/cart/:id', cartCTRL.delete)
 //SEARCH CTRL
-app.get('./api/search', searchCTRL.search)
+app.get('/api/search', searchCTRL.search)
 
 //listening --------------------------------------------
 app.listen(SERVER_PORT, ()=> console.log(`Port ${SERVER_PORT} is on and ready to copy`))
